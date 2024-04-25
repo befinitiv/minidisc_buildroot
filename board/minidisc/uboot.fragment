@@ -1,4 +1,6 @@
+CONFIG_BAUDRATE=921600
 CONFIG_USE_BOOTARGS=y
-CONFIG_BOOTARGS="console=tty0 console=ttyS0,115200 panic=5 rootwait root=/dev/mmcblk0p2 rw"
+CONFIG_BOOTARGS="console=tty0 console=ttyS0,921600 panic=5 rootwait root=/dev/mmcblk0p2 rw"
 CONFIG_BOOTCOMMAND="load mmc 0:1 0x80C00000 devicetree.dtb; load mmc 0:1 0x80008000 zImage; bootz 0x80008000 - 0x80C00000"
 CONFIG_BOOTDELAY=0
+

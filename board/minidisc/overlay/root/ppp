@@ -1,0 +1,1 @@
+pppd noauth passive local nocrtscts 192.168.10.10:192.168.10.1 /dev/ttyS0 921600
