@@ -1,0 +1,4 @@
+config BR2_PACKAGE_MINIDISC
+	bool minidisc
+	select BR2_PACKAGE_LIBGPIOD
+	select BR2_PACKAGE_MPG123
