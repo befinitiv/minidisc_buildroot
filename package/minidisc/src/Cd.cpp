@@ -15,8 +15,7 @@
 #include "Cd.h"
 
 Cd::Cd(Callback ready, Callback notReady)
-	: monitorThread(&Cd::monitorDrive, this)
-	, ready(ready)
+	: ready(ready)
 	, notReady(notReady) {
 	DIR* dir = opendir(MOUNT_POINT.c_str());
 
@@ -31,6 +30,8 @@ Cd::Cd(Callback ready, Callback notReady)
 	if(driveFd < 0) {
 		throw std::runtime_error("Error opening CD drive");
 	}
+
+	monitorThread = std::thread(&Cd::monitorDrive, this);
 }
 
 Cd::~Cd() {

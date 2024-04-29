@@ -10,7 +10,7 @@ pkg_check_modules(GPIOD REQUIRED libgpiodcxx)
 pkg_check_modules(MPG123 REQUIRED libmpg123)
 pkg_check_modules(OUT123 REQUIRED libout123)
 
-add_executable(${PROJECT_NAME} minidisc.cpp Cd.cpp Mpg123.cpp)
+add_executable(${PROJECT_NAME} minidisc.cpp Cd.cpp Mpg123.cpp Buttons.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${GPIOD_INCLUDE_DIRS} ${MPG123_INCLUDE_DIRS} ${OUT123_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${GPIOD_LIBRARIES} ${MPG123_LIBRARIES} ${OUT123_LIBRARIES}) 
