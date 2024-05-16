@@ -19,6 +19,7 @@ Mpg123::Mpg123()
 
 
 void Mpg123::play(std::string fileName) {
+	stopped = false;
 	int channels = 0;
 	int encoding = 0;
 	long rate = 0;
@@ -59,7 +60,13 @@ void Mpg123::play(std::string fileName) {
 		}
 		samples += played/framesize;
 		std::cout << "Played " << samples << std::endl;
-	} while (done && err==MPG123_OK);
+	} while (!stopped && done && err==MPG123_OK);
+
+	mpg123_close(mh);
 
 	free(buffer);
+}
+
+void Mpg123::volumeChange(float change) {
+	mpg123_volume_change(mh, change);
 }

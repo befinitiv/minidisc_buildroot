@@ -10,8 +10,11 @@ class Mpg123 {
 		Mpg123();
 
 		void play(std::string fileName);
+		void stop() { stopped = true; }
+		void volumeChange(float change);
 private:
 	mpg123_handle *mh;
 	out123_handle *ao;
 
+	bool stopped = false;
 };

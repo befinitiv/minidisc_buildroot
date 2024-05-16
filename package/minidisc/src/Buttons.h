@@ -12,17 +12,20 @@ public:
 	Buttons(Callback callbackPressed);
 	~Buttons();
 
-	const unsigned int PWR = 96;
-	const unsigned int PLAY = 97;
-	const unsigned int STOP = 98;
-	const unsigned int PREV = 99;
-	const unsigned int NEXT = 100;
-	const unsigned int VOLINC = 101;
-	const unsigned int VOLDEC = 102;
+	void powerOff() { pwrLine.set_value(0); }
+
+	static const unsigned int PWR = 96;
+	static const unsigned int PLAY = 97;
+	static const unsigned int STOP = 98;
+	static const unsigned int PREV = 99;
+	static const unsigned int NEXT = 100;
+	static const unsigned int VOLINC = 101;
+	static const unsigned int VOLDEC = 102;
 
 private:
 	gpiod::line_bulk bulk;
 	Callback callbackPressed;
+	gpiod::line pwrLine;
 	
 	std::thread monitorThread;
 	bool stopped = false;

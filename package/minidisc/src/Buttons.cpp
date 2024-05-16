@@ -6,6 +6,12 @@
 
 Buttons::Buttons(Callback callbackPressed)
 	: callbackPressed(callbackPressed) {
+	
+	::gpiod::chip chip("gpiochip0");
+	pwrLine = chip.get_line(PWR);
+	pwrLine.request({"example", gpiod::line_request::DIRECTION_OUTPUT, 0},1);
+	pwrLine.set_value(1);
+
 	bulk = gpiod::chip("gpiochip0", gpiod::chip::OPEN_BY_NAME).get_lines({ PLAY, STOP, PREV, NEXT, VOLINC, VOLDEC });
 	
 	bulk.request({ "monitor",

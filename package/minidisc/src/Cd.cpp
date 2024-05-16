@@ -17,6 +17,11 @@
 Cd::Cd(Callback ready, Callback notReady)
 	: ready(ready)
 	, notReady(notReady) {
+		
+
+	//umount in case there is a previous mount still active (ok to fail)
+	umount(MOUNT_POINT.c_str());
+
 	DIR* dir = opendir(MOUNT_POINT.c_str());
 
 	if(!dir) {
@@ -30,6 +35,8 @@ Cd::Cd(Callback ready, Callback notReady)
 	if(driveFd < 0) {
 		throw std::runtime_error("Error opening CD drive");
 	}
+	
+
 
 	monitorThread = std::thread(&Cd::monitorDrive, this);
 }
@@ -44,8 +51,14 @@ void Cd::monitorDrive() {
 	while(!stopped) {
 		int r = ioctl(driveFd, CDROM_DRIVE_STATUS);
 		std::cout << r << std::endl;	
-		if(!mounted && r == CDS_DISC_OK)
+		if(!mounted && r == CDS_DISC_OK) {
+		int speed = 1;
+		 r = ioctl(driveFd, CDROM_SELECT_SPEED, speed);
+		if(r)
+			perror("set speed");
+
 			mountDrive();
+			}
 	
 		if(mounted && r != CDS_DISC_OK)
 			umountDrive();
