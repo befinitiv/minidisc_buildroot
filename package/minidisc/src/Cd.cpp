@@ -51,14 +51,8 @@ void Cd::monitorDrive() {
 	while(!stopped) {
 		int r = ioctl(driveFd, CDROM_DRIVE_STATUS);
 		std::cout << r << std::endl;	
-		if(!mounted && r == CDS_DISC_OK) {
-		int speed = 1;
-		 r = ioctl(driveFd, CDROM_SELECT_SPEED, speed);
-		if(r)
-			perror("set speed");
-
+		if(!mounted && r == CDS_DISC_OK)
 			mountDrive();
-			}
 	
 		if(mounted && r != CDS_DISC_OK)
 			umountDrive();

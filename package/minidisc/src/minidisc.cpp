@@ -1,6 +1,8 @@
 #include <iostream>
 #include <mpg123.h>
 #include <filesystem>
+#include <unistd.h>
+
 
 #include "SSD1306.h"
 #include "Cd.h"
@@ -8,6 +10,9 @@
 #include "Buttons.h"
 
 Mpg123 mpg123;
+SSD1306 display;
+
+bool poweroff = false;
 
 void ready() {
 	std::cout << "ready" << std::endl;
@@ -18,6 +23,8 @@ void ready() {
 					continue;
         std::cout << dir_entry.path().string() << '\n';
 				mpg123.play(dir_entry.path().string());
+				if(poweroff)
+					break;
 	}
 }
 
@@ -25,7 +32,6 @@ void notReady() {
 	std::cout << "not ready" << std::endl;
 }
 
-bool poweroff = false;
 void pressed(unsigned int num) {
 	std::cout << "pressed " << num << std::endl;
 
@@ -44,6 +50,7 @@ void pressed(unsigned int num) {
 			break;
 		case Buttons::PLAY:
 			poweroff = true;
+			mpg123.stop();
 			break;
 		default:
 			break;
@@ -51,12 +58,13 @@ void pressed(unsigned int num) {
 }
 
 int main() {
-
-	Cd cd(ready, notReady);
+	/*Cd cd(ready, notReady);
 	Buttons buttons(pressed);
 
-	while(!poweroff);
+	while(!poweroff) {
+		sleep(1);
+	}
 	buttons.powerOff();
-
+*/
 	return 0;
 }

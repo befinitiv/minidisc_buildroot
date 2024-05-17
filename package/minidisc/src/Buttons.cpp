@@ -26,9 +26,10 @@ Buttons::~Buttons() {
 }
 
 void Buttons::monitor() {
+	using namespace std::chrono_literals;
 	while (!stopped) {
 					// wait for events and get bulk of lines on which events occured
-					auto changed = bulk.event_wait(std::chrono::seconds::max());
+					auto changed = bulk.event_wait(std::chrono::seconds(1s));
 					// iterate lines in bulk
 					for (const auto &line : changed) {
 							callbackPressed(line.offset());
