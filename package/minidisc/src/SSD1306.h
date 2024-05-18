@@ -67,8 +67,7 @@ public:
 		spiTransferByte(0xA6);
 		spiTransferByte(0xAF);
 	 	
-		
-		memset(img, 0, sizeof(img));
+	 	memset(img, 0, sizeof(img));
 		update();
 	 }
 	
@@ -76,11 +75,11 @@ public:
 		uint8_t vmem[96*16/8];
 
 		int line = 0;
-		int idx = 0;
+		int idx = 95;
 		for(int i=0; i<sizeof(vmem); ++i) {
-			vmem[i] = (img[line+0][idx] << 0) | (img[line+1][idx] << 1) | (img[line+2][idx] << 2) | (img[line+3][idx] << 3) | (img[line+4][idx] << 4) | (img[line+5][idx] << 5) | (img[line+6][idx] << 6) | (img[line+7][idx] << 7);
-			if(++idx == 96) {
-				idx = 0;
+			vmem[i] = (img[15-line-0][idx] << 0) | (img[15-line-1][idx] << 1) | (img[15-line-2][idx] << 2) | (img[15-line-3][idx] << 3) | (img[15-line-4][idx] << 4) | (img[15-line-5][idx] << 5) | (img[15-line-6][idx] << 6) | (img[15-line-7][idx] << 7);
+			if(idx-- == 0) {
+				idx = 95;
 				line = 8;
 			}
 		}
@@ -92,7 +91,7 @@ public:
 
 		spiTransferByte(0x21);
 		spiTransferByte(0x00);
-		spiTransferByte(96);
+		spiTransferByte(96-1);
 		
 		dc.set_value(1);
 		write(spiFd, vmem, sizeof(vmem));
