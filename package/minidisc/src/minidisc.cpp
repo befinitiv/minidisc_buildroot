@@ -22,6 +22,7 @@ void ready() {
 				if(!dir_entry.is_regular_file() || dir_entry.path().extension() != ".mp3")
 					continue;
         std::cout << dir_entry.path().string() << '\n';
+				display.text(dir_entry.path().filename());
 				mpg123.play(dir_entry.path().string());
 				if(poweroff)
 					break;
@@ -58,13 +59,15 @@ void pressed(unsigned int num) {
 }
 
 int main() {
-	/*Cd cd(ready, notReady);
+	display.text("Moin");
+	sleep(3);
+	Cd cd(ready, notReady);
 	Buttons buttons(pressed);
 
 	while(!poweroff) {
 		sleep(1);
 	}
 	buttons.powerOff();
-*/
+
 	return 0;
 }

@@ -13,6 +13,8 @@
 #include <linux/spi/spidev.h>
 
 
+#include <gd.h>
+
 class SSD1306 {
 public:
 	SSD1306() {
@@ -66,10 +68,14 @@ public:
 		spiTransferByte(0xA4);
 		spiTransferByte(0xA6);
 		spiTransferByte(0xAF);
-	 	
+	
+		clear();
+	 }
+
+	void clear() {
 	 	memset(img, 0, sizeof(img));
 		update();
-	 }
+	}
 	
 	void update() {
 		uint8_t vmem[96*16/8];
@@ -94,7 +100,30 @@ public:
 		spiTransferByte(96-1);
 		
 		dc.set_value(1);
-		write(spiFd, vmem, sizeof(vmem));
+		ssize_t l = write(spiFd, vmem, sizeof(vmem));
+	}
+
+	void text(const std::string & s) {
+		clear();
+		gdImagePtr im = gdImageCreate(96, 16);
+		int black = gdImageColorAllocate(im, 0, 0, 0);
+		int white = gdImageColorAllocate(im, 255, 255, 255);
+
+		int brect[8];
+		char *c = gdImageStringFT(im, brect, white, "/usr/share/fonts/dejavu/DejaVuSans-ExtraLight.ttf", 8, 0, 0, 12, s.c_str());
+		if(c)
+			printf("%s\n", c);
+
+		for(int y=0; y<16; ++y)
+			for(int x=0; x<96; ++x) {
+				int px = gdImageGetPixel(im, x, y);
+				if(px) {
+					img[y][x] = 1;
+				}
+			}
+
+		gdImageDestroy(im);
+		update();
 	}
 
 	uint8_t img[16][96];

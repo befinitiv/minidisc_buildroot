@@ -14,7 +14,7 @@ add_executable(${PROJECT_NAME} minidisc.cpp Cd.cpp Mpg123.cpp Buttons.cpp)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_include_directories(${PROJECT_NAME} PUBLIC ${GPIOD_INCLUDE_DIRS} ${MPG123_INCLUDE_DIRS} ${OUT123_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${GPIOD_LIBRARIES} ${MPG123_LIBRARIES} ${OUT123_LIBRARIES}) 
+target_link_libraries(${PROJECT_NAME} ${GPIOD_LIBRARIES} ${MPG123_LIBRARIES} ${OUT123_LIBRARIES} gd) 
 
 
 

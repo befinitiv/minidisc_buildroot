@@ -59,7 +59,7 @@ void Mpg123::play(std::string fileName) {
 			,	(long)played, (long)done);
 		}
 		samples += played/framesize;
-		std::cout << "Played " << samples << std::endl;
+		//std::cout << "Played " << samples << std::endl;
 	} while (!stopped && done && err==MPG123_OK);
 
 	mpg123_close(mh);
